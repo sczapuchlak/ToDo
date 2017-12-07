@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView = null;
     ArrayAdapter<String> adapter = null;
     DBOpenHelper dbHelper = null;
-
+    EditText textbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         items = dbHelper.getAll();
 
         listView = (ListView) findViewById(R.id.list_view);
-
+        textbox = (EditText) findViewById(R.id.userInfo);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, items);
         listView.setAdapter(adapter);
 
@@ -46,20 +44,19 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String item =addItem();
+                String item = textbox.getText().toString();
+                addItem(item);
                 Snackbar.make(view, item+ " has been added!", Snackbar.LENGTH_LONG)
-                        .setAction("Undo", new UndoListener().show();
-
+                        .setAction("Undo", new UndoListener()).show();
             }
-        }));
+        }
+        );
     }
-            private String addItem(){
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy", Locale.US);
-                 String item = format.format(new Date());
+            private void addItem(String item){
                 dbHelper.add(item);
                 items.add(item);
                 adapter.notifyDataSetChanged();
-                return item;
+
             }
 
 

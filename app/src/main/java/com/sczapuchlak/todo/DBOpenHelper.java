@@ -5,20 +5,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.ArrayAdapter;
+
 
 import java.util.ArrayList;
 
 public class DBOpenHelper extends SQLiteOpenHelper{
 
 
-    public DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "Create table time (timestamp text)";
+        String sql = "Create table time (ToDo text)";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -27,16 +27,16 @@ public class DBOpenHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("drop table if exists ToDo");
     }
 
-    public void add(String item){
-        String sql = "insert into table ToDo (timestamp) values (" + item+ ")";
+    void add(String item){
+        String sql = "insert into table ToDo (ToDo) values (" + item+ ")";
 
         ContentValues values = new ContentValues();
-        values.put("timestamp", item);
+        values.put("ToDo", item);
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert("ToDo", null, values);
         db.close();
     }
-    public ArrayList<String> getAll(){
+    ArrayList<String> getAll(){
         String sql = "select * from ToDo";
         SQLiteDatabase db = this. getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -47,6 +47,8 @@ public class DBOpenHelper extends SQLiteOpenHelper{
                 items.add(cursor.getString(0));
             }while (cursor.moveToNext());
         }
+
 return items;
+
     }
 }
