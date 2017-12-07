@@ -18,7 +18,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "Create table time (ToDo text)";
+        String sql = "CREATE TABLE ToDo (ToDo Items)";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -28,10 +28,10 @@ public class DBOpenHelper extends SQLiteOpenHelper{
     }
 
     void add(String item){
-        String sql = "insert into table ToDo (ToDo) values (" + item+ ")";
+        String sql = "insert into table ToDo (Items) values (" + item+ ")";
 
         ContentValues values = new ContentValues();
-        values.put("ToDo", item);
+        values.put("Items", item);
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert("ToDo", null, values);
         db.close();
