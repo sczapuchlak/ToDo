@@ -20,7 +20,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE"+ TABLE_NAME;
+        String sql = "CREATE TABLE "+ TABLE_NAME;
         sqLiteDatabase.execSQL(sql);
 //        sqLiteDatabase.delete("ToDo",null,null );
     }
@@ -28,18 +28,17 @@ public class DBOpenHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(sqLiteDatabase);
 }
 
     void add(String item){
-        String sql = "insert into table"+TABLE_NAME+ "(Items) values (" + item+ ")";
-
         ContentValues values = new ContentValues();
-        values.put("Items", item);
+        values.put(COL_NAME, item);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert("ToDo", null, values);
+        db.insert(TABLE_NAME, null, values);
         db.close();
     }
-    ArrayList<String> getAll(){
+    public ArrayList<String> getAll(){
         String sql = "select * from"+ TABLE_NAME;
         SQLiteDatabase db = this. getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
